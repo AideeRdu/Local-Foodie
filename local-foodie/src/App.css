@@ -1,0 +1,73 @@
+:root {
+  --bg: #f3f6f4;
+  --ink: #1b2a24;
+  --muted: #5d6b64;
+  --green: #2f6f4f;
+  --green-dark: #235640;
+  --marigold: #f2b134;
+  --card: #ffffff;
+  --line: #d9e2dd;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Georgia, 'Times New Roman', Times, serif;
+  line-height: 1.5;
+}
+
+.app { max-width: 1000px; margin: 0 auto; padding: 32px 20px 60px; }
+
+.header h1 { font-family: Georgia, "Times New Roman", serif; font-size: 2.4rem; margin: 0 0 4px; }
+.header p { margin: 0 0 24px; color: var(--muted); }
+
+.search-form { display: flex; gap: 8px; }
+.search-form input {
+  flex: 1; padding: 14px 16px; font-size: 1.05rem;
+  border: 2px solid var(--line); border-radius: 10px; background: var(--card);
+}
+.search-form input:focus { outline: none; border-color: var(--green); }
+
+button { font: inherit; cursor: pointer; }
+.search-form button {
+  padding: 0 24px; border: none; border-radius: 10px;
+  background: var(--green); color: #fff; font-weight: 600;
+}
+.search-form button:hover { background: var(--green-dark); }
+button:focus-visible { outline: 3px solid var(--marigold); outline-offset: 2px; }
+
+.examples { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 28px; }
+.chip {
+  padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--card); color: var(--muted); font-size: 0.9rem;
+}
+.chip:hover { border-color: var(--green); color: var(--green); }
+
+.hint { color: var(--muted); }
+
+.results { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+
+.list { display: flex; flex-direction: column; gap: 12px; }
+
+.card { background: var(--card); border: 2px solid var(--line); border-radius: 10px; overflow: hidden; }
+.card-selected { border-color: var(--green); }
+.card-main { display: block; width: 100%; padding: 14px 16px 6px; border: none; background: none; text-align: left; color: inherit; }
+.card h3 { margin: 0 0 2px; font-size: 1.1rem; }
+.blurb { margin: 0 0 6px; color: var(--muted); font-size: 0.95rem; }
+.meta { margin: 0; font-size: 0.9rem; font-weight: 600; }
+
+.services { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 8px 16px 14px; }
+.services li { background: #fdf0cf; border-radius: 6px; padding: 2px 8px; font-size: 0.8rem; }
+
+.map-wrap { position: sticky; top: 20px; }
+.map { width: 100%; height: 420px; border: 2px solid var(--line); border-radius: 10px; }
+.map-empty { padding: 40px; text-align: center; color: var(--muted); border: 2px dashed var(--line); border-radius: 10px; }
+
+@media (max-width: 720px) {
+  .results { grid-template-columns: 1fr; }
+  .map-wrap { position: static; }
+  .map { height: 300px; }
+}
