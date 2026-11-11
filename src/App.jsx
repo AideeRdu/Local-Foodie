@@ -1,58 +1,97 @@
-
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import SearchBar from "./components/SearchBar";
 import BusinessCard from "./components/BusinessCard";
 import MapView from "./components/MapView";
-import businesses from "./data/businesses";
 import { searchBusinessesByPreferences, searchBusinesses } from "./utils/search";
+import { getUserLocation, withRealDistances, fetchNearbyPlaces } from "./utils/location";
 import "./App.css";
 
 export default function App() {
   const [results, setResults] = useState(null);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("");
   const [error, setError] = useState("");
 
-  const handleSearch = async (text) => {
+  const [userLoc, setUserLoc] = useState(null);
+  const [nearbyPlaces, setNearbyPlaces] = useState(null); // real places from OpenStreetMap
+  const askedOnce = useRef(false);
+
+  const showResults = (list) => {
+    setResults(list);
+    setSelected(list[0] || null);
+  };
+
+  const handleUseLocation = async () => {
     setLoading(true);
+    setError("");
+    try {
+      setLoadingText("Finding your location...");
+      const loc = await getUserLocation();
+      setUserLoc(loc);
+
+      setLoadingText("Finding restaurants and cafes near you...");
+      const places = withRealDistances(await fetchNearbyPlaces(loc), loc);
+      setNearbyPlaces(places);
+      showResults(places);
+
+      if (places.length === 0) {
+        setError("No restaurants or cafes found within a mile of you.");
+      }
+    } catch (err) {
+      console.error(err);
+      if (err.code === 1) {
+        setError("Location access is blocked. Allow location for this site, then click \"Use my location\".");
+      } else {
+        setError("Couldn't load nearby places. Please try \"Use my location\" again.");
+      }
+    } finally {
+      setLoading(false);
+      setLoadingText("");
+    }
+  };
+
+  // Ask for location automatically when the page opens (only once)
+  useEffect(() => {
+    if (askedOnce.current) return;
+    askedOnce.current = true;
+    handleUseLocation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSearch = async (text) => {
+    if (!nearbyPlaces) {
+      setError("We need your location first. Click \"Use my location\" and allow access.");
+      return;
+    }
+
+    setLoading(true);
+    setLoadingText("Understanding your search...");
     setError("");
 
     try {
-      // Send the search to the Gemini backend
+      // Send the search to the AI backend
       const response = await fetch("http://localhost:3001/api/search", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ query: text })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: text }),
       });
 
       if (!response.ok) {
         throw new Error("AI search failed");
       }
 
-      // Get preferences from Gemini
       const preferences = await response.json();
+      console.log("AI preferences:", preferences);
 
-      console.log("Gemini preferences:", preferences);
-
-      // Filter restaurants using the AI preferences
-      const found = searchBusinessesByPreferences(preferences, businesses);
-
-      setResults(found);
-      setSelected(found[0] || null);
-
-    } catch (error) {
-      console.error(error);
+      showResults(withRealDistances(searchBusinessesByPreferences(preferences, nearbyPlaces), userLoc));
+    } catch (err) {
+      console.error(err);
       setError("AI search failed. Using basic search instead.");
-
-      // Use original search if AI is unavailable
-      const found = searchBusinesses(text, businesses);
-      setResults(found);
-      setSelected(found[0] || null);
-
+      showResults(withRealDistances(searchBusinesses(text, nearbyPlaces), userLoc));
     } finally {
       setLoading(false);
+      setLoadingText("");
     }
   };
 
@@ -64,16 +103,15 @@ export default function App() {
       </header>
 
       <SearchBar onSearch={handleSearch} />
+      <button className="location-btn" onClick={handleUseLocation} disabled={loading}>
+        📍 {nearbyPlaces ? "Showing places near you (refresh)" : "Use my location"}
+      </button>
 
-      {loading && <p className="hint">Understanding your search...</p>}
+      {loading && <p className="hint">{loadingText}</p>}
 
       {error && <p className="hint">{error}</p>}
 
-      {results === null && (
-        <p className="hint">Type what you feel like eating, or tap an example above.</p>
-      )}
-
-      {results && results.length === 0 && (
+      {results && results.length === 0 && !error && (
         <p className="hint">No matches. Try a different search.</p>
       )}
 
