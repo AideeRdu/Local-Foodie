@@ -52,7 +52,7 @@ function isChain(tags) {
 }
 
 // Real, locally owned restaurants/cafes near a location from OpenStreetMap
-export async function fetchNearbyPlaces({ lat, lng }, radiusMeters = 24000) {
+export async function fetchNearbyPlaces({ lat, lng }, radiusMeters = 12000) {
     const query = `[out:json][timeout:25];
     node["amenity"~"restaurant|cafe|fast_food|ice_cream"]["name"](around:${radiusMeters},${lat},${lng});
     out;`;

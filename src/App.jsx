@@ -156,7 +156,7 @@ export default function App() {
             <input
               type="range"
               min="1"
-              max="15"
+              max="20"
               step="1"
               value={radius}
               onChange={(e) => setRadius(Number(e.target.value))}
