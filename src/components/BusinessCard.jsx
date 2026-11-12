@@ -1,8 +1,14 @@
 
 import { useState, useEffect } from "react";
 import { getVisitorId } from "../utils/visitor";
+import { formatHours } from "../utils/hours";
 
-export default function BusinessCard({ business, selected, onSelect }) {
+const TYPE_LABELS = {
+  cafe: "☕ Café",
+  restaurant: "🍽️ Restaurant",
+};
+
+export default function BusinessCard({ business, selected, onSelect, onDirections }) {
   const [visitCount, setVisitCount] = useState(0);
   const [visited, setVisited] = useState(false);
   const [loadingVisit, setLoadingVisit] = useState(false);
@@ -86,7 +92,9 @@ export default function BusinessCard({ business, selected, onSelect }) {
     >
       <h3>{business.name}</h3>
 
-      <p>{business.type}</p>
+      <span className={`type-badge type-${business.type}`}>
+        {TYPE_LABELS[business.type] || business.type}
+      </span>
 
       {business.cuisine && (
         <p>{business.cuisine.join(", ")}</p>
@@ -96,19 +104,25 @@ export default function BusinessCard({ business, selected, onSelect }) {
         <p>{business.distance.toFixed(1)} miles away</p>
       )}
 
-      {business.avgSpend !== undefined && (
-        <p>Average spending: ${business.avgSpend}</p>
-      )}
 
       {business.blurb && (
         <p>{business.blurb}</p>
       )}
 
+      <div className="hours">
+        <p className="hours-title">🕒 Hours</p>
+        {formatHours(business.hours).length > 0 ? (
+          formatHours(business.hours).map((line) => <p key={line}>{line}</p>)
+        ) : (
+          <p>Hours not listed</p>
+        )}
+      </div>
+
       <div className="visit-section">
-          <p>
-            <strong>{visitCount}</strong>
-            <span> community visits</span>
-          </p>
+        <p>
+          <strong>{visitCount}</strong>
+          <span> community visits</span>
+        </p>
 
         <button
           onClick={handleVisit}
@@ -121,6 +135,20 @@ export default function BusinessCard({ business, selected, onSelect }) {
               : "I've visited this place"}
         </button>
       </div>
+
+      <button
+        className="directions-btn"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDirections(business);
+        }}
+      >
+        🧭 Take me there
+      </button>
+
+
+
     </div>
+
   );
 }

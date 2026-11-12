@@ -76,6 +76,7 @@ export async function fetchNearbyPlaces({ lat, lng }, radiusMeters = 12000) {
             lng: el.lon,
             services: [],
             blurb: el.tags["addr:street"] || "",
+            hours: el.tags.opening_hours || null, // e.g. "Mo-Fr 07:00-17:00; Sa 08:00-14:00"
             atmosphere: [],
             wifi: el.tags.internet_access === "wlan" || el.tags.internet_access === "yes",
             openLate: false,

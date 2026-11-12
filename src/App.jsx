@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import SearchBar from "./components/SearchBar";
 import BusinessCard from "./components/BusinessCard";
 import MapView from "./components/MapView";
+import DirectionsDialog from "./components/DirectionsDialog";
 import { searchBusinessesByPreferences, searchBusinesses } from "./utils/search";
 import { getUserLocation, withRealDistances, fetchNearbyPlaces } from "./utils/location";
 import "./App.css";
+
 
 export default function App() {
   const [results, setResults] = useState(null);
@@ -16,6 +18,7 @@ export default function App() {
   const [userLoc, setUserLoc] = useState(null);
   const [nearbyPlaces, setNearbyPlaces] = useState(null); // real places from OpenStreetMap
   const [radius, setRadius] = useState(5);
+  const [directionsFor, setDirectionsFor] = useState(null); // place the user wants to go to
   const askedOnce = useRef(false);
 
   const showResults = (list) => {
@@ -24,7 +27,7 @@ export default function App() {
   };
 
   const handleUseLocation = async () => {
-    
+
     setLoading(true);
     setError("");
     try {
@@ -34,9 +37,9 @@ export default function App() {
 
       setLoadingText("Finding restaurants and cafes near you...");
       const places = withRealDistances(
-          await fetchNearbyPlaces(loc, radius * 1609.34),
-          loc
-        );
+        await fetchNearbyPlaces(loc, radius * 1609.34),
+        loc
+      );
       setNearbyPlaces(places);
       showResults(places);
 
@@ -99,7 +102,7 @@ export default function App() {
       setLoadingText("");
     }
   };
-    const handleRadiusChange = async () => {
+  const handleRadiusChange = async () => {
     if (!userLoc) return;
 
     setLoading(true);
@@ -127,46 +130,46 @@ export default function App() {
     }
   };
 
-    return (
-      <div className="app">
-        <header className="header">
-          <h1>The Local Foodie</h1>
-          <p>Find nearby local restaurants and cafes. No sign-up needed.</p>
-        </header>
+  return (
+    <div className="app">
+      <header className="header">
+        <h1>The Local Foodie</h1>
+        <p>Find nearby local restaurants and cafes. No sign-up needed.</p>
+      </header>
 
-        {/* Search bar always visible */}
-        <SearchBar onSearch={handleSearch} />
+      {/* Search bar always visible */}
+      <SearchBar onSearch={handleSearch} />
 
-        {/* Location button */}
-        <button
-          className="location-btn"
-          onClick={handleUseLocation}
-          disabled={loading}
-        >
-          📍 {nearbyPlaces ? "Showing places near you (refresh)" : "Use my location"}
-        </button>
+      {/* Location button */}
+      <button
+        className="location-btn"
+        onClick={handleUseLocation}
+        disabled={loading}
+      >
+        📍 {nearbyPlaces ? "Showing places near you (refresh)" : "Use my location"}
+      </button>
 
-        {/* Radius slider only appears when location is available */}
-        {userLoc && (
-          <div className="radius-control">
-            <label>
-              Search radius: <strong>{radius} miles</strong>
-            </label>
+      {/* Radius slider only appears when location is available */}
+      {userLoc && (
+        <div className="radius-control">
+          <label>
+            Search radius: <strong>{radius} miles</strong>
+          </label>
 
-            <input
-              type="range"
-              min="1"
-              max="20"
-              step="1"
-              value={radius}
-              onChange={(e) => setRadius(Number(e.target.value))}
-            />
+          <input
+            type="range"
+            min="1"
+            max="20"
+            step="1"
+            value={radius}
+            onChange={(e) => setRadius(Number(e.target.value))}
+          />
 
-            <button onClick={handleRadiusChange} disabled={loading}>
-              Update Search Area
-            </button>
-          </div>
-        )}
+          <button onClick={handleRadiusChange} disabled={loading}>
+            Update Search Area
+          </button>
+        </div>
+      )}
 
       {loading && <p className="hint">{loadingText}</p>}
 
@@ -185,6 +188,7 @@ export default function App() {
                 business={b}
                 selected={selected?.id === b.id}
                 onSelect={setSelected}
+                onDirections={setDirectionsFor}
               />
             ))}
           </section>
@@ -194,6 +198,12 @@ export default function App() {
           </section>
         </main>
       )}
+
+      <DirectionsDialog
+        business={directionsFor}
+        onClose={() => setDirectionsFor(null)}
+      />
+
     </div>
   );
 }

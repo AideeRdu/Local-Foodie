@@ -1,4 +1,3 @@
-
 /* General page */
 * {
   box-sizing: border-box;
@@ -382,4 +381,114 @@ body {
   }
 }
 
+/* Business type badge */
+.type-badge {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #e8efeb;
+  color: #286b49;
+}
 
+.type-badge.type-cafe {
+  background: #fdf1e3;
+  color: #8a4b12;
+}
+
+/* Opening hours */
+.hours {
+  margin-top: 8px;
+}
+
+.business-card .hours p {
+  margin: 2px 0;
+}
+
+.business-card .hours .hours-title {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Directions button */
+.directions-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 9px 12px;
+  background: white;
+  color: #286b49;
+  border: 1px solid #38845e;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.directions-btn:hover {
+  background: #e8efeb;
+}
+
+/* Directions pop-up */
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.45);
+}
+
+.dialog {
+  width: 100%;
+  max-width: 360px;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.dialog h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.dialog p {
+  margin: 0 0 14px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.dialog-apps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dialog-apps a {
+  display: block;
+  padding: 10px;
+  background: #38845e;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dialog-apps a:hover {
+  background: #286b49;
+}
+
+.dialog-cancel {
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 13px;
+  cursor: pointer;
+}
