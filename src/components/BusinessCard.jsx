@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { getVisitorId } from "../utils/visitor";
 import { formatHours } from "../utils/hours";
+import { API_BASE } from "../utils/api";
 
 const TYPE_LABELS = {
   cafe: "☕ Café",
@@ -26,7 +27,7 @@ export default function BusinessCard({ business, selected, onSelect, onDirection
         });
 
         const response = await fetch(
-          `http://localhost:3001/api/visits?${params}`
+          `${API_BASE}/api/visits?${params}`
         );
 
         if (!response.ok) {
@@ -56,7 +57,7 @@ export default function BusinessCard({ business, selected, onSelect, onDirection
     setLoadingVisit(true);
 
     try {
-      const response = await fetch("http://localhost:3001/api/visits", {
+      const response = await fetch(`${API_BASE}/api/visits`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -6,7 +6,7 @@ import DirectionsDialog from "./components/DirectionsDialog";
 import { searchBusinessesByPreferences, searchBusinesses } from "./utils/search";
 import { getUserLocation, withRealDistances, fetchNearbyPlaces } from "./utils/location";
 import "./App.css";
-
+import { API_BASE } from "./utils/api";
 
 export default function App() {
   const [results, setResults] = useState(null);
@@ -18,12 +18,28 @@ export default function App() {
   const [userLoc, setUserLoc] = useState(null);
   const [nearbyPlaces, setNearbyPlaces] = useState(null); // real places from OpenStreetMap
   const [radius, setRadius] = useState(5);
-  const [directionsFor, setDirectionsFor] = useState(null); // place the user wants to go to
+  const [directionsFor, setDirectionsFor] = useState(null);
+  const [page, setPage] = useState(0); // which page of results (0 = first)
+  const PAGE_SIZE = 5; // place the user wants to go to
   const askedOnce = useRef(false);
 
   const showResults = (list) => {
     setResults(list);
     setSelected(list[0] || null);
+    setPage(0);
+  };
+
+  // Only the results for the current page
+  const totalPages = results ? Math.ceil(results.length / PAGE_SIZE) : 0;
+  const pageResults = results
+    ? results.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE)
+    : [];
+
+  const goToPage = (newPage) => {
+    setPage(newPage);
+    const first = results[newPage * PAGE_SIZE];
+    setSelected(first || null); // show the first place of the new page on the map
+    document.querySelector(".results")?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleUseLocation = async () => {
@@ -79,7 +95,7 @@ export default function App() {
 
     try {
       // Send the search to the AI backend
-      const response = await fetch("http://localhost:3001/api/search", {
+      const response = await fetch(`${API_BASE}/api/search`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: text }),
@@ -133,10 +149,12 @@ export default function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>The Local Foodie</h1>
+        <div className="brand">
+          <img src="/restaurant_icon.png" alt="" className="brand-logo" />
+          <h1>The Local Foodie</h1>
+        </div>
         <p>Find nearby local restaurants and cafes. No sign-up needed.</p>
       </header>
-
       {/* Search bar always visible */}
       <SearchBar onSearch={handleSearch} />
 
@@ -182,7 +200,7 @@ export default function App() {
       {results && results.length > 0 && (
         <main className="results">
           <section className="list">
-            {results.map((b) => (
+            {pageResults.map((b) => (
               <BusinessCard
                 key={b.id}
                 business={b}
@@ -191,6 +209,22 @@ export default function App() {
                 onDirections={setDirectionsFor}
               />
             ))}
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button onClick={() => goToPage(page - 1)} disabled={page === 0}>
+                  ← Previous
+                </button>
+                <span>
+                  {page * PAGE_SIZE + 1}–{Math.min((page + 1) * PAGE_SIZE, results.length)} of{" "}
+                  {results.length}
+                </span>
+                <button onClick={() => goToPage(page + 1)} disabled={page >= totalPages - 1}>
+                  Next →
+                </button>
+              </div>
+            )}
+
+
           </section>
 
           <section className="map-wrap">
@@ -198,6 +232,21 @@ export default function App() {
           </section>
         </main>
       )}
+
+      <footer className="footer">
+        Icons by{" "}
+        <a
+          href="https://www.flaticon.com/authors/superarticons"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Superarticons
+        </a>{" "}
+        from{" "}
+        <a href="https://www.flaticon.com" target="_blank" rel="noopener noreferrer">
+          Flaticon
+        </a>
+      </footer>
 
       <DirectionsDialog
         business={directionsFor}
@@ -207,3 +256,4 @@ export default function App() {
     </div>
   );
 }
+

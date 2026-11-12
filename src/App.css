@@ -492,3 +492,337 @@ body {
   font-size: 13px;
   cursor: pointer;
 }
+
+/* ===== Phone layout ===== */
+@media (max-width: 700px) {
+  .app {
+    padding: 12px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  /* Search bar: bigger tap targets, no auto-zoom */
+  .search-form input {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .search-form button {
+    min-height: 44px;
+  }
+
+  /* Example chips scroll sideways */
+  .examples {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chip {
+    flex-shrink: 0;
+    min-height: 36px;
+  }
+
+  /* Location button and radius slider */
+  .location-btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .radius-control {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .radius-control input {
+    width: 100%;
+  }
+
+  .radius-control button {
+    min-height: 44px;
+  }
+
+  /* One column: map on top, list below */
+  .results {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .map-wrap {
+    order: -1;
+    position: static;
+    height: 260px;
+  }
+
+  .map,
+  .map-empty {
+    height: 260px;
+  }
+
+  /* Cards: easier to read and tap */
+  .business-card {
+    padding: 14px;
+  }
+
+  .business-card h3 {
+    font-size: 16px;
+  }
+
+  .business-card p {
+    font-size: 13px;
+  }
+
+  .visit-section button,
+  .directions-btn {
+    width: 100%;
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  /* Directions pop-up slides up from the bottom */
+  .dialog-backdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .dialog {
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 20px 16px 28px;
+  }
+
+  .dialog-apps a {
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .dialog-cancel {
+    min-height: 44px;
+    width: 100%;
+  }
+}
+
+/* Footer / credits */
+.footer {
+  margin-top: 30px;
+  padding: 16px 0;
+  border-top: 1px solid #e5e7eb;
+  color: #64748b;
+  font-size: 12px;
+  text-align: center;
+}
+
+.footer a {
+  color: #286b49;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.pagination button {
+  padding: 8px 14px;
+  min-height: 40px;
+  background: white;
+  color: #286b49;
+  border: 1px solid #38845e;
+  border-radius: 7px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #e8efeb;
+}
+
+.pagination button:disabled {
+  border-color: #d5dedb;
+  color: #9ca3af;
+  cursor: default;
+}
+
+/* ===== Cozy café theme ===== */
+body {
+  font-family: "Nunito", Arial, sans-serif;
+  color: #3b2a20;
+  background-color: #f7efe3;
+  /* subtle coffee-bean dot pattern */
+  background-image:
+    radial-gradient(rgba(120, 80, 50, 0.08) 1.2px, transparent 1.2px),
+    radial-gradient(rgba(120, 80, 50, 0.05) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.brand-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+.header h1 {
+  margin: 0;
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+  font-size: 40px;
+  color: #5b3a29;
+}
+
+.header p,
+.hint {
+  color: #7a6355;
+}
+
+/* Search */
+.search-form input {
+  background: #fffaf3;
+  border-color: #e6d5c3;
+  font-family: inherit;
+}
+
+.search-form input:focus {
+  border-color: #8b5e3c;
+}
+
+/* Main (filled) buttons */
+.search-form button,
+.visit-section button,
+.radius-control button,
+.dialog-apps a {
+  background: #8b5e3c;
+  font-family: inherit;
+}
+
+.search-form button:hover,
+.visit-section button:hover:not(:disabled),
+.radius-control button:hover,
+.dialog-apps a:hover {
+  background: #6f4a2f;
+}
+
+/* Outline buttons */
+.directions-btn,
+.pagination button {
+  background: #fffaf3;
+  color: #6f4a2f;
+  border-color: #8b5e3c;
+  font-family: inherit;
+}
+
+.directions-btn:hover,
+.pagination button:hover:not(:disabled) {
+  background: #f3e6d6;
+}
+
+/* Chips, location button, radius box */
+.chip,
+.location-btn,
+.radius-control {
+  background: #fffaf3;
+  border-color: #e6d5c3;
+  color: #5b3a29;
+  font-family: inherit;
+}
+
+.chip:hover,
+.location-btn:hover {
+  background: #f3e6d6;
+}
+
+.radius-control input {
+  accent-color: #8b5e3c;
+}
+
+/* Cards */
+.business-card {
+  background: #fffaf3;
+  border-color: #e6d5c3;
+  box-shadow: 0 2px 6px rgba(91, 58, 41, 0.06);
+}
+
+.business-card:hover,
+.business-card.selected {
+  border-color: #8b5e3c;
+}
+
+.business-card.selected {
+  box-shadow: 0 4px 12px rgba(91, 58, 41, 0.15);
+}
+
+.business-card h3 {
+  color: #3b2a20;
+}
+
+.business-card p {
+  color: #7a6355;
+}
+
+.visit-section {
+  border-top-color: #eadccb;
+}
+
+/* Type badges */
+.type-badge {
+  background: #f1e4d3;
+  color: #6f4a2f;
+}
+
+.type-badge.type-cafe {
+  background: #fde8d0;
+  color: #8a4b12;
+}
+
+/* Map and dialog */
+.map,
+.map-empty {
+  border-color: #e6d5c3;
+}
+
+.map-empty {
+  background: #f3e6d6;
+  color: #7a6355;
+}
+
+.dialog {
+  background: #fffaf3;
+}
+
+/* Footer */
+.footer {
+  border-top-color: #e6d5c3;
+  color: #7a6355;
+}
+
+.footer a {
+  color: #8b5e3c;
+}
+
+/* Smaller brand on phones */
+@media (max-width: 700px) {
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+  }
+
+  .header h1 {
+    font-size: 30px;
+  }
+}
