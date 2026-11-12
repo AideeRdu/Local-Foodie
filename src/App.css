@@ -1,0 +1,385 @@
+
+/* General page */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f7f5;
+  color: #1f2937;
+}
+
+.app {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 18px 20px;
+}
+
+/* Header */
+.header {
+  margin-bottom: 18px;
+}
+
+.header h1 {
+  margin: 0 0 6px;
+  font-size: 28px;
+  color: #1f2937;
+}
+
+.header p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Search bar */
+.search {
+  margin-bottom: 15px;
+}
+
+.search-form {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.search-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 14px;
+  border: 1px solid #d5dedb;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-form input:focus {
+  border-color: #38845e;
+}
+
+.search-form button {
+  padding: 10px 18px;
+  background: #38845e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.search-form button:hover {
+  background: #286b49;
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.chip {
+  padding: 7px 12px;
+  background: white;
+  border: 1px solid #d5dedb;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.chip:hover {
+  background: #e8f2ec;
+}
+
+/* Location button */
+.location-btn {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 9px 16px;
+  background: white;
+  color: #334155;
+  border: 1px solid #d5dedb;
+  border-radius: 25px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.location-btn:hover {
+  background: #edf5f0;
+}
+
+.location-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Search radius */
+.radius-control {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  background: white;
+  border: 1px solid #d5dedb;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.radius-control input {
+  accent-color: #38845e;
+  cursor: pointer;
+}
+
+.radius-control button {
+  padding: 7px 12px;
+  background: #38845e;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.radius-control button:hover {
+  background: #286b49;
+}
+
+/* Loading and error messages */
+.hint {
+  margin: 12px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Restaurant list and map */
+.results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+  margin-top: 8px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Restaurant cards */
+.business-card {
+  padding: 12px;
+  background: white;
+  border: 1px solid #d5dedb;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.business-card:hover {
+  border-color: #38845e;
+}
+
+.business-card.selected {
+  border: 1px solid #38845e;
+}
+
+.business-card h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.business-card p {
+  margin: 4px 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Community visits */
+.visit-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.visit-section p {
+  margin: 0;
+  color: #374151;
+  font-size: 13px;
+}
+
+.visit-section p strong {
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.visit-section button {
+  padding: 8px 12px;
+  background: #38845e;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.visit-section button:hover:not(:disabled) {
+  background: #286b49;
+}
+
+.visit-section button:disabled {
+  background: #e5e7eb;
+  color: #6b7280;
+  cursor: default;
+}
+
+
+/* Restaurant list and map */
+.results {
+  display: grid;
+  grid-template-columns: 0.8fr 1.5fr;
+  gap: 20px;
+  align-items: start;
+  margin-top: 8px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+/* Restaurant cards */
+.business-card {
+  padding: 12px;
+  background: white;
+  border: 1px solid #d5dedb;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.business-card:hover {
+  border-color: #38845e;
+}
+
+.business-card.selected {
+  border: 1px solid #38845e;
+}
+
+.business-card h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.business-card p {
+  margin: 4px 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Community visits */
+.visit-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.visit-section p {
+  margin: 0;
+  color: #374151;
+  font-size: 13px;
+}
+
+.visit-section p strong {
+  color: #1f2937;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.visit-section button {
+  padding: 8px 12px;
+  background: #38845e;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.visit-section button:hover:not(:disabled) {
+  background: #286b49;
+}
+
+.visit-section button:disabled {
+  background: #e5e7eb;
+  color: #6b7280;
+  cursor: default;
+}
+
+/* Map */
+.map-wrap {
+  width: 100%;
+  min-width: 0;
+  height: 650px;
+  position: sticky;
+  top: 15px;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: 650px;
+  border: 1px solid #d5dedb;
+  border-radius: 9px;
+}
+
+.map-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 650px;
+  background: #e8efeb;
+  border: 1px solid #d5dedb;
+  border-radius: 9px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .map-wrap {
+    position: static;
+    height: 400px;
+  }
+
+  .map,
+  .map-empty {
+    height: 400px;
+  }
+}
+
+
